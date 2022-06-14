@@ -1,0 +1,64 @@
+<div
+  class="tab-pane fade"
+  id="list-reviewed"
+  role="tabpanel"
+  aria-labelledby="list-reviewed-list"
+>
+  <h5 class="card-title text-center">Most Reviewed School</h5>
+  <% reviewedSchools.forEach((reviewedSchool, index) => { %>
+  <div class="card shadow mb-4 upwards">
+    <a href="/schools/<%= reviewedSchool.slug %>" class="card-link">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-sm-2 d-flex align-items-center justify-content-center">
+            <p>
+              <% if (index === 0) { %>
+              <i class="fas fa-crown gold"></i>
+              <% } %>
+              <% if (index === 1) { %>
+              <i class="fas fa-crown silver"></i>
+              <% } %>
+              <% if (index === 2) { %>
+              <i class="fas fa-crown bronze"></i>
+              <% } %>
+              No.<%= index + 1 %>
+            </p>
+          </div>
+          <div class="col-12 col-sm-3 d-flex align-items-center">
+            <img src="<%= reviewedSchool.image.url %>" class="card-img-top" alt="No Image">            
+          </div>
+          <div class="col-12 col-sm-7 text-center text-sm-left">
+            <h5><%= reviewedSchool.name %></h5>
+            <span class="badge badge-info"><%= reviewedSchool.location.country %></span>
+            <span class="badge badge-secondary"><%= reviewedSchool.location.city %></span>
+            <% if (!reviewedSchool.averageRating) { %>
+            <p class="font-italic">
+              No Rating Yet
+            </p>
+            <% } else { %>
+            <p>
+              <span>
+                <i class="fas fa-star <% if (reviewedSchool.averageRating >= 1.0) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (reviewedSchool.averageRating >= 1.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (reviewedSchool.averageRating >= 2.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (reviewedSchool.averageRating >= 3.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (reviewedSchool.averageRating >= 4.5) { %> checked <% } %>"></i>
+              </span>
+              (<%= reviewedSchool.averageRating.toFixed(2) %>)
+            </p>
+            <% } %>
+            <span class="badge badge-light mb-2">
+              <i class="fas fa-thumbs-up"></i> Favorite: <%= reviewedSchool.likes.length %>
+            </span>
+            <span class="badge badge-light mb-2">
+              <i class="fas fa-comment-dots"></i> Review: <%= reviewedSchool.reviews.length %>
+            </span>
+            <br>
+            <span>created on <%= moment(reviewedSchool.createdAt).format('YYYY-MM-DD') %></span>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  <% }) %>
+</div>

@@ -1,0 +1,50 @@
+<div
+  class="tab-pane fade show active"
+  id="list-favorited"
+  role="tabpanel"
+  aria-labelledby="list-favorited-list"
+>
+  <h3 class="card-title text-center">Favorite School</h3>
+  <% schools.forEach(school => { %>
+  <div class="card shadow mb-4 upwards">
+    <a href="/schools/<%= school.slug %>" class="card-link">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-sm-4 d-flex align-items-center">
+            <img src="<%= school.image.url %>" class="card-img-top" alt="No Image">            
+          </div>
+          <div class="col-12 col-sm-8 text-center text-sm-left">
+            <h5><%= school.name %></h5>
+            <span class="badge badge-info"><%= school.location.country %></span>
+            <span class="badge badge-secondary"><%= school.location.city %></span>
+            <% if (!school.averageRating) { %>
+            <p class="font-italic">
+              No Rating Yet
+            </p>
+            <% } else { %>
+            <p>
+              <span>
+                <i class="fas fa-star <% if (school.averageRating >= 1.0) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (school.averageRating >= 1.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (school.averageRating >= 2.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (school.averageRating >= 3.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (school.averageRating >= 4.5) { %> checked <% } %>"></i>
+              </span>
+              (<%= school.averageRating.toFixed(2) %>)
+            </p>
+            <% } %>
+            <span class="badge badge-light mb-2">
+              <i class="fas fa-thumbs-up"></i> Favorite: <%= school.likes.length %>
+            </span>
+            <span class="badge badge-light mb-2">
+              <i class="fas fa-comment-dots"></i> Review: <%= school.reviews.length %>
+            </span>
+            <br>
+            <span>created on <%= moment(school.createdAt).format('YYYY-MM-DD') %></span>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  <% }) %>
+</div>

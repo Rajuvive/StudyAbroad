@@ -1,0 +1,26 @@
+<div
+  class="tab-pane fadee"
+  id="list-followers"
+  role="tabpanel"
+  aria-labelledby="list-followers-list"
+>
+  <h3 class="card-title text-center">Followers</h3>
+  <% user.followed.forEach(follower => { %>
+  <div class="card shadow mb-4 upwards">
+    <a href="/users/<%= follower.slug %>" class="card-link">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-sm-4 d-flex align-items-center">
+            <img src="<%= follower.image.url %>" class="card-img-top" alt="No Image">            
+          </div>
+          <div class="col-12 col-sm-8 text-center text-sm-left">
+            <h5><%= follower.name %></h5>
+            <p class="font-italic"><%= follower.studentType %></p>
+            <p><%= follower.introduction %></p>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  <% }) %>
+</div>

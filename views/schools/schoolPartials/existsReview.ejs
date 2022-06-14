@@ -1,0 +1,291 @@
+<div class="row">
+  <div class="col-md-12">
+    <% reviews.forEach(review => { %>
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-4">
+            <img style="width: 100%; max-width: 100px;" class="mx-auto d-block" src="<%= review.user.image.url %>" class="card-img-top" alt="No Image">
+            <p class="my-2 text-center">
+              <a href="/users/<%= review.user.slug %>">
+                <%= review.user.name %>
+              </a>
+            </p>
+            
+          </div>
+          <div class="col-8">
+            <h5><%= review.title %></h5>
+            <span>
+              <i class="fas fa-star <% if (review.rating >= 1.0) { %> checked <% } %>"></i>
+              <i class="fas fa-star <% if (review.rating >= 1.5) { %> checked <% } %>"></i>
+              <i class="fas fa-star <% if (review.rating >= 2.5) { %> checked <% } %>"></i>
+              <i class="fas fa-star <% if (review.rating >= 3.5) { %> checked <% } %>"></i>
+              <i class="fas fa-star <% if (review.rating >= 4.5) { %> checked <% } %>"></i>
+            </span>
+            <br>
+            <span>
+              <%= moment(review.createdAt).format('YYYY-MM-DD') %>
+            </span>
+            <p><%= review.description %></p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <% if (currentUser && currentUser._id.equals(review.user._id) || (currentUser && currentUser.isAdmin)) { %>
+            <!-- Edit Review Toggle -->
+            <button
+              class="btn btn-sm btn-outline-dark"
+              data-toggle="collapse"
+              href="#collapseEditReview<%= review.user._id %>"
+              aria-expanded="false"
+              aria-controls="collapseEditReview"
+            >
+              <i class="fas fa-edit"></i> Edit
+            </button>
+            <!-- Edit Review Toggle End -->
+
+            <!-- Delete Review Modal Trigger -->
+            <a
+              href="#"
+              class="card-link"
+              data-toggle="modal"
+              data-target="#deleteReview"
+            >
+              <button class="btn btn-sm btn-outline-danger">
+                <i class="fas fa-trash-alt"></i> DELETE
+              </button>
+            </a>
+            <!-- Delete Review Modal Trigger End -->
+      
+            <!-- Delete Review Modal -->
+            <div
+              class="modal fade"
+              id="deleteReview"
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="deleteReview"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">
+                      <i class="fas fa-exclamation-triangle"></i>
+                      Warning!
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Do you really want to delete this review?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                      <i class="fas fa-window-close"></i> Close
+                    </button>
+                    <form action="/schools/<%= school.slug %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                      <button class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i> Delete
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Delete Review Modal End -->
+            <% } %>
+          </div>
+        </div>
+
+        <!-- Edit Review Form -->
+        <div class="collapse" id="collapseEditReview<%= review.user._id %>">
+          <hr>
+          <h4 class="card-title">Edit your review</h4>
+          <form
+            action="/schools/<%= school.slug %>/reviews/<%= review._id %>?_method=PUT"
+            method="POST"
+          >
+            <div class="form-group">
+              <label for="title">Title (required)</label>
+              <input
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                placeholder="I really enjoy studying with classmate!"
+                value="<%= typeof review != 'undefined' ? review.title : '' %>"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="degree">Degree</label>
+              <select name="degree" id="degree" class="custom-select">
+                <option
+                  value="Certificate (1 year)"
+                  <%= review.degree === 'Certificate (1 year)' ? 'selected' : '' %>
+                >
+                  Certificate (1 year)
+                </option>
+                <option
+                  value="Diploma (2 years)"
+                  <%= review.degree === 'Diploma (2 years)' ? 'selected' : '' %>
+                >
+                  Diploma (2 years)
+                </option>
+                <option
+                  value="Advanced Diploma (3 years)"
+                  <%= review.degree === 'Advanced Diploma (3 years)' ? 'selected' : '' %>
+                >
+                  Advanced Diploma (3 years)
+                </option>
+                <option
+                  value="Bachelor (4 years)"
+                  <%= review.degree === 'Bachelor (4 years)' ? 'selected' : '' %>
+                >
+                  Bachelor (4 years)
+                </option>
+                <option
+                  value="Master"
+                  <%= review.degree === 'Master' ? 'selected' : '' %>
+                >
+                  Master
+                </option>
+                <option
+                  value="Doctor"
+                  <%= review.degree === 'Doctor' ? 'selected' : '' %>
+                >
+                  Doctor
+                </option>
+                <option
+                  value="Other"
+                  <%= review.degree === 'Other' ? 'selected' : '' %>
+                >
+                  Other
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="rating">Rating</label>
+              <fieldset class="starability-basic form-group" id="rating">
+                <div>
+                  <input
+                    type="radio"
+                    id="first-rate5"
+                    name="rating"
+                    value="5"
+                    <% if (review.rating === 5) { %>
+                      checked
+                    <% } %>
+                  />
+                  <label for="first-rate5" title="Amazing">
+                    <i class="fas fa-star checked"></i>
+                    <i class="fas fa-star checked"></i>
+                    <i class="fas fa-star checked"></i>
+                    <i class="fas fa-star checked"></i>
+                    <i class="fas fa-star checked"></i>
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="first-rate4"
+                    name="rating"
+                    value="4"
+                    <% if (review.rating === 4) { %>
+                      checked
+                    <% } %>
+                  />
+                  <label for="first-rate4" title="Very good">
+                    <i class="fas fa-star checked"></i>
+                    <i class="fas fa-star checked"></i>
+                    <i class="fas fa-star checked"></i>
+                    <i class="fas fa-star checked"></i>
+                    <i class="far fa-star"></i>
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="first-rate3"
+                    name="rating"
+                    value="3"
+                    <% if (review.rating === 3) { %>
+                      checked
+                    <% } %>
+                  />
+                  <label for="first-rate3" title="Average">
+                    <i class="fas fa-star checked"></i>
+                    <i class="fas fa-star checked"></i>
+                    <i class="fas fa-star checked"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="first-rate2"
+                    name="rating"
+                    value="2"
+                    <% if (review.rating === 2) { %>
+                      checked
+                    <% } %>
+                  />
+                  <label for="first-rate2" title="Not good">
+                    <i class="fas fa-star checked"></i>
+                    <i class="fas fa-star checked"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="first-rate1"
+                    name="rating"
+                    value="1"
+                    <% if (review.rating === 1) { %>
+                      checked
+                    <% } %>
+                  />
+                  <label for="first-rate1" title="Terrible">
+                    <i class="fas fa-star checked"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description (within 500 letters)</label>
+              <textarea
+                type="text"
+                class="form-control"
+                id="description"
+                name="description"
+                rows="5"
+                placeholder="I highly recommend you check this college"
+              ><%= typeof review != 'undefined' ? review.description : '' %></textarea>
+            </div>
+
+            <div class="form-group">
+              <button class="btn btn-outline-success btn-sm">
+                SUBMIT
+              </button>
+            </div>
+          </form>
+        </div>
+        <!-- Edit Review Form End -->
+
+      </div>
+    </div>
+    <% }) %>
+  </div>
+</div>

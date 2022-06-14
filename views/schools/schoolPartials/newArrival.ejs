@@ -1,0 +1,40 @@
+<div class="text-center mb-4">
+  <h3 class="card-title">New Arrival Schools</h3>
+  <div class="row">
+    <% newArrivalSchools.forEach(newArrivalSchool => { %>
+    <div class="col-md-12 upwards">
+      <a href="#" class="card-link">
+        <div class="card shadow mb-4">
+          <div class="card-body">
+            <div class="col-6 col-md-12 mx-auto pr-0 pl-0">
+              <img style="width: 100%; max-width: 300px;" src="<%= newArrivalSchool.image.url %>" class="card-img-top" alt="No Image">
+            </div>
+            <p><%= newArrivalSchool.name %></p>
+            <span class="badge badge-info"><%= newArrivalSchool.location.country %></span>
+            <span class="badge badge-secondary"><%= newArrivalSchool.location.city %></span>
+            <% if (!newArrivalSchool.averageRating) { %>
+            <p class="font-italic">No Rating Yet</p>
+            <% } else { %>
+            <p>
+              <span>
+                <i class="fas fa-star <% if (newArrivalSchool.averageRating>= 1.0) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (newArrivalSchool.averageRating>= 1.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (newArrivalSchool.averageRating>= 2.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (newArrivalSchool.averageRating>= 3.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (newArrivalSchool.averageRating>= 4.5) { %> checked <% } %>"></i>
+              </span>
+            </p>
+            <% } %>
+            <span class="badge badge-light mb-2">
+              <i class="fas fa-thumbs-up"></i> Like: <%= newArrivalSchool.likes.length %>
+            </span>
+            <span class="badge badge-light mb-2">
+              <i class="fas fa-comment-dots"></i> Review: <%= newArrivalSchool.reviews.length %>
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <% }) %>
+  </div>
+</div>

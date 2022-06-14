@@ -1,0 +1,154 @@
+<div class="card bg-white">
+  <h5 style="background-color: #fff;" class="card-header text-center">
+    <% if (formContent === 'signup') { %> 
+    <i class="fas fa-user-plus"></i> Signup
+    <% } %>
+
+    <% if (formContent === 'login') { %> 
+    <i class="fas fa-sign-in-alt"></i> Login
+    <% } %>
+
+    <% if (formContent === 'forgotPassword') { %>
+    <i class="fas fa-unlock-alt"></i> Forgot Password
+    <% } %>
+
+    <% if (formContent === 'resetPassword') { %> 
+    <i class="fas fa-unlock-alt"></i> Reset Password
+    <% } %>
+
+    <% if (formContent === 'profile') { %> 
+    <i class="fas fa-user"></i> Edit Your Profile
+    <% } %>
+
+    <% if (formContent === 'email') { %> 
+    <i class="fas fa-envelope"></i> Edit Your Email
+    <% } %>
+
+    <% if (formContent === 'password') { %> 
+    <i class="fas fa-unlock-alt"></i> Edit Your Password
+    <% } %>
+
+    <% if (formContent === 'addSchool') { %> 
+    Add School
+    <% } %>
+
+    <% if (formContent === 'editSchool') { %> 
+    Edit School
+    <% } %>
+
+    <% if (formContent === 'inquiry') { %> 
+    <i class="fas fa-question-circle"></i> Inquiry
+    <% } %>
+  </h5>
+  
+  <div class="card-body">
+
+    <!-- Form Action -->
+    <% if (formContent === 'signup') { %> 
+    <form action="/signup" method="POST">
+    <% } %>
+
+    <% if (formContent === 'login') { %> 
+    <form action="/login" method="POST">
+    <% } %>
+
+    <% if (formContent === 'forgotPassword') { %>
+    <form action="/forgot" method="POST">
+    <% } %>
+
+    <% if (formContent === 'resetPassword') { %> 
+    <form action="/reset/<%= token %>?_method=PUT" method="POST">
+    <% } %>
+
+    <% if (formContent === 'profile'|| formContent === 'email' || formContent === 'password') { %> 
+    <form action="/users/<%= currentUser.slug %>?_method=PUT" method="POST" enctype="multipart/form-data">
+    <% } %>
+
+    <% if (formContent === 'addSchool') { %> 
+    <form action="/schools" method="POST" enctype="multipart/form-data">
+    <% } %>
+
+    <% if (formContent === 'editSchool') { %> 
+    <form action="/schools/<%= school.slug %>?_method=PUT" method="POST" enctype="multipart/form-data">
+    <% } %>
+
+    <% if (formContent === 'inquiry') { %> 
+    <form action="/inquiry" method="POST">
+    <% } %>
+
+      <!-- Form Group -->
+      <% if (formContent === 'signup') { %>
+      <%- include("./formParts/profile") %>
+      <%- include("./formParts/email") %>
+      <%- include("./formParts/password") %>
+      <% } %>
+
+      <% if (formContent === 'login') { %>
+      <%- include("./formParts/email") %>
+      <%- include("./formParts/password") %>
+      <% } %>
+
+      <% if (formContent === 'forgotPassword') { %>
+      <%- include("./formParts/email") %>
+      <% } %>
+
+      <% if (formContent === 'resetPassword') { %>
+      <%- include("./formParts/password") %>
+      <% } %>
+
+      <% if (formContent === 'profile') { %>
+      <%- include("./formParts/profile") %>
+      <% } %>
+
+      <% if (formContent === 'email') { %>
+      <%- include("./formParts/email") %>
+      <% } %>
+
+      <% if (formContent === 'password') { %>
+      <%- include("./formParts/password") %>
+      <% } %>
+
+      <% if (formContent === 'addSchool' || formContent === 'editSchool') { %>
+      <%- include("./formParts/school") %>
+      <% } %>
+
+      <% if (formContent === 'inquiry') { %>
+      <%- include("./formParts/profile") %>
+      <%- include("./formParts/email") %>
+      <%- include("./formParts/other") %>
+      <% } %>
+      
+      <% if (formContent === 'profile' || formContent === 'email' || formContent === 'password' ) { %> 
+      <input type="hidden" name="content" value="<%= formContent %>">
+      <% } %>
+      
+      <div class="form-group">
+        <button type="submit" class="btn btn-outline-success btn-block">SUBMIT</button>
+      </div>
+    </form>
+    
+    <% if (formContent === 'login') { %>
+    <form action="/login" method="POST">
+      <input type="hidden" name="email" value="test@test.com">
+      <input type="hidden" name="password" value="password">
+      <button type="submit" class="btn btn-link pl-0">
+        Login with Test Account
+      </button>
+    </form>
+    <p>	Forgot Password? <a href="/forgot">Reset Password</a></p>
+    <% } %>
+
+    <% if (formContent === 'profile'|| formContent === 'email' || formContent === 'password') { %>
+      <a href="/users/<%= user.slug %>">Go back</a>
+    <% } %>
+
+    <% if (formContent === 'addSchool') { %>
+    <a href="/schools">Go back</a>
+    <% } %>
+
+    <% if (formContent === 'editSchool') { %>
+    <a href="/schools/<%= school.slug %>">Go back to <%= school.name %> Page</a>
+    <% } %>
+
+  </div>
+</div>

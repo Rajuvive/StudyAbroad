@@ -1,0 +1,64 @@
+<div
+  class="tab-pane fade"
+  id="list-latest"
+  role="tabpanel"
+  aria-labelledby="list-latest-list"
+>
+  <h5 class="card-title text-center">Latest Registered School</h5>
+  <% latestSchools.forEach((latestSchool, index) => { %>
+  <div class="card shadow mb-4 upwards">
+    <a href="/schools/<%= latestSchool.slug %>" class="card-link">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-sm-2 d-flex align-items-center justify-content-center">
+            <p>
+              <% if (index === 0) { %>
+              <i class="fas fa-crown gold"></i>
+              <% } %>
+              <% if (index === 1) { %>
+              <i class="fas fa-crown silver"></i>
+              <% } %>
+              <% if (index === 2) { %>
+              <i class="fas fa-crown bronze"></i>
+              <% } %>
+              No.<%= index + 1 %>
+            </p>
+          </div>
+          <div class="col-12 col-sm-3 d-flex align-items-center">
+            <img src="<%= latestSchool.image.url %>" class="card-img-top" alt="No Image">            
+          </div>
+          <div class="col-12 col-sm-7 text-center text-sm-left">
+            <h5><%= latestSchool.name %></h5>
+            <span class="badge badge-info"><%= latestSchool.location.country %></span>
+            <span class="badge badge-secondary"><%= latestSchool.location.city %></span>
+            <% if (!latestSchool.averageRating) { %>
+            <p class="font-italic">
+              No Rating Yet
+            </p>
+            <% } else { %>
+            <p>
+              <span>
+                <i class="fas fa-star <% if (latestSchool.averageRating >= 1.0) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (latestSchool.averageRating >= 1.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (latestSchool.averageRating >= 2.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (latestSchool.averageRating >= 3.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (latestSchool.averageRating >= 4.5) { %> checked <% } %>"></i>
+              </span>
+              (<%= latestSchool.averageRating.toFixed(2) %>)
+            </p>
+            <% } %>
+            <span class="badge badge-light mb-2">
+              <i class="fas fa-thumbs-up"></i> Like: <%= latestSchool.likes.length %>
+            </span>
+            <span class="badge badge-light mb-2">
+              <i class="fas fa-comment-dots"></i> Review: <%= latestSchool.reviews.length %>
+            </span>
+            <br>
+            <span>created on <%= moment(latestSchool.createdAt).format('YYYY-MM-DD') %></span>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  <% }) %>
+</div>

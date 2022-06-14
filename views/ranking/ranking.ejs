@@ -1,0 +1,20 @@
+<%- include("../partials/header") %>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-12 col-md-4">
+    <%- include("./rankingPartials/list") %>
+    </div>
+
+    <div class="col-sm-12 col-md-8">
+      <div class="tab-content" id="nav-tabContent">
+      <%- include("./rankingPartials/favorited") %>
+      <%- include("./rankingPartials/rated") %>
+      <%- include("./rankingPartials/reviewed") %>
+      <%- include("./rankingPartials/latest") %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>

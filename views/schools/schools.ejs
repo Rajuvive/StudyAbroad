@@ -1,0 +1,129 @@
+<%- include("../partials/header") %>
+
+<div class="container mt-4">
+  <div class="row ml-1">
+    <h2 class="mb-4">All Schools</h2>
+  </div>
+
+  <div class="row mb-4 ml-1">
+    <a class="btn btn-sm btn-outline-success mb-2" href="/schools/new" role="button">
+      <i class="fas fa-plus"></i> Add New School
+    </a>
+  </div>
+
+  <div class="row">
+    <% if (schools && schools.length > 0) { %>
+    <% schools.forEach(school => { %>
+    <div class="col-12 col-sm-6 col-md-3 upwards">
+      <a href="/schools/<%= school.slug %>" class="card-link">
+        <div class="card shadow text-center border-0 mb-4">
+          <div class="card-body">
+            <div class="col-6 col-md-12 mx-auto pr-0 pl-0">
+              <img style="height: 150px" class="card-img-top" src="<%= school.image && school.image.url %>" alt="No Image">
+            </div>
+            <p><%= school.name %></p>
+            <span class="badge badge-info"><%= school.location.country %></span>
+            <span class="badge badge-secondary"><%= school.location.city %></span>
+            <% if (!school.averageRating) { %>
+            <p class="font-italic">No Rating Yet</p>
+            <% } else { %>
+            <p>
+              <span>
+                <i class="fas fa-star <% if (school.averageRating >= 1.0) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (school.averageRating >= 1.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (school.averageRating >= 2.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (school.averageRating >= 3.5) { %> checked <% } %>"></i>
+                <i class="fas fa-star <% if (school.averageRating >= 4.5) { %> checked <% } %>"></i>
+              </span>
+              (<%= school.averageRating.toFixed(2) %>)
+            </p>
+            <% } %>
+            <span class="badge badge-light mb-2">
+              <i class="fas fa-thumbs-up"></i> Like: <%= school.likes.length %>
+            </span>
+            <span class="badge badge-light mb-2">
+              <i class="fas fa-comment-dots"></i> Review: <%= school.reviews.length %>
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <% }) %>
+    <% } else { %>
+    <div class="container">
+      <p class="h3">School not found</p>
+    </div>
+    <% } %>
+  </div>
+</div>
+
+<% if (pages && pages > 0) { %>
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+    <% if (currentPage === 1) { %>
+    <li class="page-item disabled">
+      <a class="page-link">First</a>
+    </li>
+    <% } else { %>
+    <li>
+      <a class="page-link" href="/schools">First</a>
+    </li>
+    <% } %>
+
+    <% if (currentPage == 1) { %>
+    <li class="page-item disabled">
+      <a class="page-link" area-label="Previous">«</a>
+    </li>
+    <% } else { %>
+    <li>
+      <a class="page-link" href="/schools?page=<%= currentPage - 1 %>">«</a>
+    </li>
+    <% } %>
+
+    <% let i = (currentPage > 5 ? currentPage - 4 : 1) %>
+    <% if (i !== 1) { %>
+    <li class="page-item disabled">
+      <a class="page-link">...</a>
+    </li>
+    <% } %>
+    <% for (; i <= (currentPage + 4) && i <= pages; i++) { %>
+    <% if (i == currentPage) { %>
+    <li class="active">
+      <a class="page-link"><%= i %></a>
+    </li>
+    <% } else { %>
+    <li>
+      <a class="page-link" href="/schools?page=<%= i %>"><%= i %></a>
+    </li>
+    <% } %>
+    <% if (i == currentPage + 4 && i < pages) { %>
+    <li class="page-item disabled">
+      <a class="page-link">...</a>
+    </li>
+    <% } %>
+    <% } %>
+
+    <% if (currentPage == pages) { %>
+    <li class="page-item disabled" area-label="Next">
+      <a class="page-link">»</a>
+    </li>
+    <% } else { %>
+    <li>
+      <a class="page-link" href="/schools?page=<%= currentPage + 1 %>">»</a>
+    </li>
+    <% } %>
+
+    <% if (currentPage == pages) { %>
+    <li class="page-item disabled">
+      <a class="page-link">Last</a>
+    </li>
+    <% } else { %>
+    <li>
+      <a class="page-link" href="/schools?page=<%= pages %>">Last</a>
+    </li>
+    <% } %>
+  </ul>
+</nav>
+<% } %>
+
+<%- include("../partials/footer") %>

@@ -1,0 +1,39 @@
+<% if (formContent === 'signup' || formContent === 'login' || formContent === 'forgotPassword' || formContent === 'inquiry') { %>
+<div class="form-group">
+  <label for="email">Email (required)</label>
+  <input
+  type="text"
+  class="form-control"
+  id="email"
+  name="email"
+  placeholder="test@test.com"
+  value="<%= typeof email != 'undefined' ? email : '' %>"
+  >
+</div>
+<% } %>
+
+<% if (formContent === 'email') { %>
+<div class="form-group">
+  <label for="currentEmail">Current Email (required)</label>
+  <input
+    type="text"
+    class="form-control"
+    id="currentEmail"
+    name="currentEmail"
+    placeholder="test@test.com"
+    value="<%= typeof user != 'undefined' ? user.email : '' %>"
+    disabled
+  >
+</div>
+
+<div class="form-group">
+  <label for="newEmail">New Email (required)</label>
+  <input
+    type="text"
+    class="form-control"
+    id="newEmail"
+    name="newEmail"
+    placeholder="test@test.com"
+  >
+</div>
+<% } %>

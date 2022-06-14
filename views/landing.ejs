@@ -1,0 +1,108 @@
+<%- include("./partials/header") %>
+
+<header id="landing-top">
+  <div class="dark-overlay">
+    <div class="container">
+      <h1 class="text-white">Study Abroad!</h1>
+      <h4 class="text-white">Find your dream. Enjoy your life.</h4>
+    </div>
+  </div>
+</header>
+
+<section id="landing-card" class="py-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h3 class="text-center mb-4">Latest Schools</h3>
+        <% latestSchools.forEach(school => { %>
+        <div class="card shadow mb-4 upwards">
+          <a href="/schools/<%= school.slug %>" class="card-link">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12 col-sm-4 pr-0 pl-0 d-flex align-items-center">
+                  <div class="col-6 col-sm-12 mx-auto">
+                    <img src="<%= school.image && school.image.url %>" class="card-img-top" alt="No Image">            
+                  </div>
+                </div>
+                <div class="col-12 col-sm-8 text-center text-sm-left">
+                  <h5><%= school.name %></h5>
+                  <span class="badge badge-info"><%= school.location.country %></span>
+                  <span class="badge badge-secondary"><%= school.location.city %></span>
+                  <% if (!school.averageRating) { %>
+                  <p class="font-italic">
+                    No Rating Yet
+                  </p>
+                  <% } else { %>
+                  <p>
+                    <span>
+                      <i class="fas fa-star <% if (school.averageRating >= 1.0) { %> checked <% } %>"></i>
+                      <i class="fas fa-star <% if (school.averageRating >= 1.5) { %> checked <% } %>"></i>
+                      <i class="fas fa-star <% if (school.averageRating >= 2.5) { %> checked <% } %>"></i>
+                      <i class="fas fa-star <% if (school.averageRating >= 3.5) { %> checked <% } %>"></i>
+                      <i class="fas fa-star <% if (school.averageRating >= 4.5) { %> checked <% } %>"></i>
+                    </span>
+                    (<%= school.averageRating.toFixed(2) %>)
+                  </p>
+                  <% } %>
+                  <span class="badge badge-light mb-2">
+                    <i class="fas fa-thumbs-up"></i> Favorite: <%= school.likes.length %>
+                  </span>
+                  <span class="badge badge-light mb-2">
+                    <i class="fas fa-comment-dots"></i> Review: <%= school.reviews.length %>
+                  </span>
+                  <br>
+                  <span>created on <%= moment(school.createdAt).format('YYYY-MM-DD') %></span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <% }) %>
+      </div>
+
+      <div class="col-md-6">
+        <h3 class="text-center mb-4">Latest Reviews</h3>
+        <% latestReviews.forEach(review => { %>
+        <div class="card shadow mb-4 upwards">
+          <a href="/schools/<%= review.school.slug %>" class="card-link">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-12 col-sm-4 pr-0 pl-0 d-flex align-items-center">
+                  <div class="col-6 col-sm-12 mx-auto">
+                    <img src="<%= review.school.image && review.school.image.url %>" class="card-img-top" alt="No Image">
+                  </div>            
+                </div>
+                <div class="col-12 col-sm-8 text-center text-sm-left">
+                  <h5><%= review.title %></h5>
+                  <p><%= review.school.name %> / <%= review.degree %></p>
+                  <span class="badge badge-info"><%= review.school.location.country %></span>
+                  <span class="badge badge-secondary"><%= review.school.location.city %></span>
+                  <% if (!review.rating) { %>
+                  <p class="font-italic">
+                    No Rating Yet
+                  </p>
+                  <% } else { %>
+                  <p>
+                    <span>
+                      <i class="fas fa-star <% if (review.rating >= 1.0) { %> checked <% } %>"></i>
+                      <i class="fas fa-star <% if (review.rating >= 1.5) { %> checked <% } %>"></i>
+                      <i class="fas fa-star <% if (review.rating >= 2.5) { %> checked <% } %>"></i>
+                      <i class="fas fa-star <% if (review.rating >= 3.5) { %> checked <% } %>"></i>
+                      <i class="fas fa-star <% if (review.rating >= 4.5) { %> checked <% } %>"></i>
+                    </span>
+                    (<%= review.rating.toFixed(2) %>)
+                  </p>
+                  <% } %>
+                  <span>created on <%= moment(review.createdAt).format('YYYY-MM-DD') %></span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include("./partials/footer") %>
