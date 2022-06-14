@@ -21,13 +21,12 @@ https://study-abroad-2020.herokuapp.com/
 ## Getting Started
 - copy this project into your local machine
 - install npm
-```
 npm install 
-```
+
 - launch app
-```
+
 npm start
-```
+
 
 ## Tech Used
 Front End
@@ -44,9 +43,3 @@ APIs
 - Cloudinary (Images Storage)
 - MapQuest (Map)
 - Mailtrap (Email)
-
-## Author
-Takuto Okamoto
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
